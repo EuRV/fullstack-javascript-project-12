@@ -1,6 +1,9 @@
-const reportWebVitals = onPerfEntry => {
+/* eslint-disable functional/no-expression-statements */
+const reportWebVitals = (onPerfEntry) => {
   if (onPerfEntry && onPerfEntry instanceof Function) {
-    import('web-vitals').then(({ getCLS, getFID, getFCP, getLCP, getTTFB }) => {
+    return import('web-vitals').then(({
+      getCLS, getFID, getFCP, getLCP, getTTFB,
+    }) => {
       getCLS(onPerfEntry);
       getFID(onPerfEntry);
       getFCP(onPerfEntry);
@@ -8,6 +11,7 @@ const reportWebVitals = onPerfEntry => {
       getTTFB(onPerfEntry);
     });
   }
+  return null;
 };
 
 export default reportWebVitals;

@@ -1,12 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-function App() {
-  return (
-    <div>
-      Hexlet Chat
-    </div>
-  );
-}
+const App = () => (
+  <div>
+    Hexlet Chat
+  </div>
+);
 
 export default App;
