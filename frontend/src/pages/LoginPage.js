@@ -3,11 +3,17 @@ import { useFormik } from 'formik';
 import {
   Button, Card, Form, FloatingLabel, Row, Col,
 } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
+
+const schema = Yup.object({
+  username: Yup.string().required(),
+  password: Yup.string().required().min(6),
+});
 
 const LoginPage = () => {
   const [authFailed, setAuthFailed] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -16,11 +22,9 @@ const LoginPage = () => {
     },
     onSubmit: (values) => {
       // eslint-disable-next-line functional/no-expression-statements
-      navigate(-1);
-      // eslint-disable-next-line functional/no-expression-statements
-      setAuthFailed(true);
-      // eslint-disable-next-line functional/no-expression-statements
-      console.log(values);
+      schema.validate(values)
+        .then(() => setAuthFailed(false))
+        .catch(() => setAuthFailed(true));
     },
   });
 
@@ -31,7 +35,7 @@ const LoginPage = () => {
           <Card className="mb-3">
             <Card.Body className="row p-5">
               <Col md={6} className="col-12 d-flex align-items-center justify-content-center" />
-              <Form className="col-12 col-md-6 mt-3 mt-mb-0">
+              <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
                 <h1 className="text-center mb-4">Войти</h1>
                 <FloatingLabel
                   controlId="username"
