@@ -15,7 +15,8 @@ const App = () => (
         </Container>
       </Navbar>
       <Routes>
-        <Route path="login" element={<LoginPage />} />
+        <Route path="/" element={null} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
