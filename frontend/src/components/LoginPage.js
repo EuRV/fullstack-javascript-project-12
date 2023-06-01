@@ -6,14 +6,8 @@ import {
   Button, Card, Form, FloatingLabel, Row, Col, Container,
 } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import * as Yup from 'yup';
 import useAuth from '../hooks/index';
 import routes from '../routes';
-
-const validationSchema = Yup.object({
-  username: Yup.string().required().min(4),
-  password: Yup.string().required().min(4),
-});
 
 const LoginPage = () => {
   const auth = useAuth();
@@ -30,7 +24,6 @@ const LoginPage = () => {
       username: '',
       password: '',
     },
-    validationSchema,
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
@@ -60,39 +53,39 @@ const LoginPage = () => {
               <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
                 <h1 className="text-center mb-4">Войти</h1>
                 <fieldset disabled={formik.isSubmitting}>
-                  <Form.Group className="form-floating mb-3">
-                    <FloatingLabel
-                      controlId="username"
-                      label="Ваш ник"
-                    >
-                      <Form.Control
-                        name="username"
-                        required
-                        placeholder="Ваш ник"
-                        onChange={formik.handleChange}
-                        value={formik.values.username}
-                        isInvalid={authFailed}
-                        ref={inputRef}
-                      />
-                    </FloatingLabel>
-                  </Form.Group>
-                  <Form.Group className="form-floating mb-3">
-                    <FloatingLabel
-                      controlId="password"
-                      label="Пароль"
-                    >
-                      <Form.Control
-                        type="password"
-                        name="password"
-                        required
-                        placeholder="Пароль"
-                        onChange={formik.handleChange}
-                        value={formik.values.password}
-                        isInvalid={authFailed}
-                      />
-                    </FloatingLabel>
-                    <Form.Control.Feedback type="invalid" className="invalid-feedback">Неверные имя пользователя или пароль</Form.Control.Feedback>
-                  </Form.Group>
+                  <FloatingLabel
+                    className="mb-3"
+                    controlId="username"
+                    label="Ваш ник"
+                  >
+                    <Form.Control
+                      name="username"
+                      required
+                      placeholder="Ваш ник"
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      value={formik.values.username}
+                      isInvalid={authFailed}
+                      ref={inputRef}
+                    />
+                  </FloatingLabel>
+                  <FloatingLabel
+                    className="mb-4"
+                    controlId="password"
+                    label="Пароль"
+                  >
+                    <Form.Control
+                      type="password"
+                      name="password"
+                      required
+                      placeholder="Пароль"
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      value={formik.values.password}
+                      isInvalid={authFailed}
+                    />
+                    <Form.Control.Feedback type="invalid" tooltip>Неверные имя пользователя или пароль</Form.Control.Feedback>
+                  </FloatingLabel>
                   <Button variant="outline-primary" type="submit" className="w-100 mb-3">
                     Войти
                   </Button>
@@ -102,6 +95,7 @@ const LoginPage = () => {
             <Card.Footer className="p-4">
               <div className="text-center">
                 <span>Нет аккаунта?</span>
+                {' '}
                 <a href="/signup">Регистрация</a>
               </div>
             </Card.Footer>
