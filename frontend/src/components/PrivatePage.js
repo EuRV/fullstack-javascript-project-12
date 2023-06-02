@@ -1,12 +1,12 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import useAuth from '../hooks/index';
 
-const PrivateRoute = () => {
+const PrivateRoute = ({ children }) => {
   const { loggedIn } = useAuth();
   const location = useLocation();
 
   return (
-    loggedIn ? (<h1>Welcome</h1>)
+    loggedIn ? children
       : <Navigate to="/login" state={{ from: location }} />
   );
 };
