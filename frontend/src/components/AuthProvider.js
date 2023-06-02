@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react';
 import AuthContext from '../context/index';
 
 const AuthProvider = ({ children }) => {
-  const currentUser = localStorage.getItem('userId');
+  const currentUser = JSON.parse(localStorage.getItem('userId'));
   const [loggedIn, setLoggedIn] = useState(Boolean(currentUser));
   const [user, setUser] = useState(currentUser || null);
 
