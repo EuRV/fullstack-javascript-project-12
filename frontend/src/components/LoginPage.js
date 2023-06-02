@@ -1,5 +1,4 @@
 /* eslint-disable functional/no-expression-statements */
-import axios from 'axios';
 import React, { useState, useRef, useEffect } from 'react';
 import { useFormik } from 'formik';
 import {
@@ -8,7 +7,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import useAuth from '../hooks/index';
-import routes from '../routes';
+import { logIn } from '../api/controllers';
 
 const LoginPage = () => {
   const auth = useAuth();
@@ -29,9 +28,9 @@ const LoginPage = () => {
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-        const { data } = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('userId', JSON.stringify(data));
-        auth.signIn(data);
+        const authorizedUser = await logIn(values);
+        localStorage.setItem('userId', JSON.stringify(authorizedUser));
+        auth.signIn(authorizedUser);
         navigate('/');
       } catch (error) {
         formik.setSubmitting(false);
