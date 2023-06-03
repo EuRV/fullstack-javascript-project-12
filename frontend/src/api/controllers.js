@@ -6,15 +6,5 @@ const logIn = async ({ username, password }) => {
   return data;
 };
 
-const getData = async (token) => {
-  const { data } = await axios.get(routes.dataPath(), {
-    headers:
-      { Authorization: `Bearer ${token}` },
-  });
-  // eslint-disable-next-line functional/no-expression-statements
-  console.log(data);
-  const { channels, messages } = data;
-  return { channels, messages };
-};
-
-export { logIn, getData };
+// eslint-disable-next-line import/prefer-default-export
+export { logIn };
