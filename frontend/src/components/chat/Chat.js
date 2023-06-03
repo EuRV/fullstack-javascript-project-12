@@ -44,7 +44,7 @@ const Chat = () => {
       </Row>
     </Container>
   ) : (
-    <Container>
+    <Container className="h-100 max-height-90 overflow-hidden rounded shadow d-flex justify-content-center align-items-center">
       <Spinner animation="border" role="status">
         <span className="visually-hidden">Loading...</span>
       </Spinner>
