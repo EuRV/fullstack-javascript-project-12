@@ -4,11 +4,11 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Spinner } from 'react-bootstrap';
-import { fetchAuthData } from '../redux/slices/loaderSlices';
-import useAuth from '../hooks';
+import { fetchAuthData } from '../../redux/slices/loaderSlices';
+import useAuth from '../../hooks';
 
-import ChatChannels from './chatComponents/ChatChannels';
-import ChatMessages from './chatComponents/ChatMessages';
+import ChatChannels from './ChatChannels';
+import ChatMessages from './ChatMessages';
 
 const Chat = () => {
   const dispatch = useDispatch();

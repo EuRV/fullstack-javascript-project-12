@@ -8,7 +8,7 @@ import Panel from './components/Panel';
 import LoginPage from './components/LoginPage';
 import NotFoundPage from './components/NotFoundPage';
 import PrivateRoute from './components/PrivatePage';
-import Chat from './components/Chat';
+import Chat from './components/chat/Chat';
 
 const App = () => (
   <div className="d-flex flex-column h-100">

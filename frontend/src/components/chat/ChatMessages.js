@@ -4,7 +4,7 @@ import { Col } from 'react-bootstrap';
 
 import { getMessagesCurrentChannel } from '../../redux/selectors';
 import Message from './Message';
-import MessageHeader from './MessagesHeader';
+import MessageHeader from './MessageHeader';
 
 const ChatMessages = () => {
   const messages = useSelector(getMessagesCurrentChannel);
