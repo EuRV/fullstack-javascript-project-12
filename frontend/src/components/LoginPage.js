@@ -6,7 +6,7 @@ import {
 } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import useAuth from '../hooks/index';
+import { useAuth } from '../hooks/index';
 import { logIn } from '../api/controllers';
 
 const LoginPage = () => {

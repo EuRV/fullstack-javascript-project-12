@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Spinner } from 'react-bootstrap';
 import { fetchAuthData } from '../../redux/slices/loaderSlices';
-import useAuth from '../../hooks';
+import { useAuth } from '../../hooks';
 
 import ChatChannels from './ChatChannels';
 import ChatMessages from './ChatMessages';
