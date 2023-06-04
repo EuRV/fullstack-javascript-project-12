@@ -1,5 +1,5 @@
 import { Button, Navbar, Container } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { useAuth } from '../hooks/index';
 
 const AuthButton = () => {
@@ -11,12 +11,15 @@ const AuthButton = () => {
 };
 
 const Panel = () => (
-  <Navbar bg="white" expand="lg" className="shadow-sm">
-    <Container>
-      <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
-      <AuthButton />
-    </Container>
-  </Navbar>
+  <>
+    <Navbar bg="white" expand="lg" className="shadow-sm">
+      <Container>
+        <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
+        <AuthButton />
+      </Container>
+    </Navbar>
+    <Outlet />
+  </>
 );
 
 export default Panel;
