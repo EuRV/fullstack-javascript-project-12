@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 // import { toast } from 'react-toastify';
 import { useAuth, useChatApi } from '../../hooks';
 
-const MessageFooter = ({ channelId }) => {
+const MessageForm = ({ channelId }) => {
   const { t } = useTranslation();
   const api = useChatApi();
   const { user } = useAuth();
@@ -58,4 +58,4 @@ const MessageFooter = ({ channelId }) => {
   );
 };
 
-export default MessageFooter;
+export default MessageForm;

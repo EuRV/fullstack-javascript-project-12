@@ -5,7 +5,7 @@ import { Col, Container } from 'react-bootstrap';
 import { getCurrentChannel, getMessagesCurrentChannel } from '../../redux/selectors';
 import Message from './Message';
 import MessageHeader from './MessageHeader';
-import MessageFooter from './MessageFooter';
+import MessageFoorm from './MessageForm';
 
 const ChatMessages = () => {
   const { id, name } = useSelector(getCurrentChannel);
@@ -20,7 +20,7 @@ const ChatMessages = () => {
           {length > 0 && messages
             .map((message) => <Message key={message.id} message={message} />)}
         </div>
-        <MessageFooter channelId={id} />
+        <MessageFoorm channelId={id} />
       </Container>
     </Col>
   );
