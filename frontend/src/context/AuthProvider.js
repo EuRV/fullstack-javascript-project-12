@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable functional/no-expression-statements */
 import React, { useState, useMemo } from 'react';
-import { AuthContext } from '../context/index';
+import { AuthContext } from './index';
 
 const AuthProvider = ({ children }) => {
   const currentUser = JSON.parse(localStorage.getItem('userId'));
