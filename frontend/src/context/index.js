@@ -3,5 +3,6 @@
 import { createContext } from 'react';
 
 const AuthContext = createContext({});
+const ChatApiContext = createContext(null);
 
-export default AuthContext;
+export { AuthContext, ChatApiContext };
