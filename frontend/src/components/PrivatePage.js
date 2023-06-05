@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/index';
 
-const PrivateRoute = ({ children }) => {
+const PrivatePage = ({ children }) => {
   const { loggedIn } = useAuth();
   const location = useLocation();
 
@@ -11,4 +11,4 @@ const PrivateRoute = ({ children }) => {
   );
 };
 
-export default PrivateRoute;
+export default PrivatePage;
