@@ -9,6 +9,7 @@ import { useAuth } from '../../hooks';
 
 import ChatChannels from './ChatChannels';
 import ChatMessages from './ChatMessages';
+import Modals from '../Modals';
 
 const Chat = () => {
   const dispatch = useDispatch();
@@ -37,12 +38,16 @@ const Chat = () => {
   }, [loadingStatus, error]);
 
   return loading ? (
-    <Container className="h-100 my-4 overflow-hidden rounded shadow">
-      <Row className="h-100 bg-white flex-md-row">
-        <ChatChannels />
-        <ChatMessages />
-      </Row>
-    </Container>
+    <>
+      <Modals />
+      <Container className="h-100 my-4 overflow-hidden rounded shadow">
+        <Row className="h-100 bg-white flex-md-row">
+          <ChatChannels />
+          <ChatMessages />
+        </Row>
+      </Container>
+
+    </>
   ) : (
     <Container className="h-100 max-height-90 overflow-hidden rounded shadow d-flex justify-content-center align-items-center">
       <Spinner animation="border" role="status">
