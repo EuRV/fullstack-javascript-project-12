@@ -21,6 +21,12 @@ export default {
       messagesCount_few: '{{count}} сообщения',
       messagesCount_many: '{{count}} сообщений',
     },
+    modals: {
+      addChannel: 'Добавить канал',
+      cancel: 'Отменить',
+      send: 'Отправить',
+      channelName: 'Имя канала',
+    },
     errors: {
       invalidLoginPassword: 'Неверные имя пользователя или пароль',
     },
