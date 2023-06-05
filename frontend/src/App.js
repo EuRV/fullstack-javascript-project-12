@@ -45,11 +45,8 @@ const App = () => {
     <Provider store={store}>
       <AuthProvider>
         <ChatApiContext.Provider value={api}>
-          <div className="d-flex flex-column h-100">
-            <RouterProvider router={router}>
-              <ToastContainer />
-            </RouterProvider>
-          </div>
+          <RouterProvider router={router} />
+          <ToastContainer />
         </ChatApiContext.Provider>
       </AuthProvider>
     </Provider>

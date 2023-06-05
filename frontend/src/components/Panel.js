@@ -11,7 +11,7 @@ const AuthButton = () => {
 };
 
 const Panel = () => (
-  <>
+  <div className="d-flex flex-column h-100">
     <Navbar bg="white" expand="lg" className="shadow-sm">
       <Container>
         <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
@@ -19,7 +19,7 @@ const Panel = () => (
       </Container>
     </Navbar>
     <Outlet />
-  </>
+  </div>
 );
 
 export default Panel;
