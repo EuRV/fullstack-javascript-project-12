@@ -29,6 +29,7 @@ export default {
     },
     errors: {
       invalidLoginPassword: 'Неверные имя пользователя или пароль',
+      duplicationChannel: 'Должно быть уникальным',
     },
   },
 };
