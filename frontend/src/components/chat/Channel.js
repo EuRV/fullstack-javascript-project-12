@@ -1,12 +1,10 @@
 /* eslint-disable functional/no-expression-statements */
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button, Nav } from 'react-bootstrap';
 import { actions } from '../../redux/slices/channelsSlice';
-import { getCurrentChannelId } from '../../redux/selectors';
 
-const Channel = ({ channel }) => {
-  const currentChannelId = useSelector(getCurrentChannelId);
+const Channel = ({ channel, currentChannelId }) => {
   const dispatch = useDispatch();
 
   const handleChoose = (id) => {
