@@ -51,7 +51,7 @@ const LoginPage = () => {
           <Card className="mb-3">
             <Card.Body className="row p-5">
               <Col md={6} className="col-12 d-flex align-items-center justify-content-center" />
-              <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
+              <Form noValidate className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
                 <h1 className="text-center mb-4">{t('logIn.title')}</h1>
                 <fieldset disabled={formik.isSubmitting}>
                   <FloatingLabel
