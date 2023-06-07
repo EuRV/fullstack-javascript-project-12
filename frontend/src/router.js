@@ -4,7 +4,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import Panel from './components/Panel';
 import NotFoundPage from './components/NotFoundPage';
 import PrivatePage from './components/PrivatePage';
-import Chat from './components/chat/Chat';
+import Chat from './components/Chat';
 import LoginPage from './components/LoginPage';
 
 export default createBrowserRouter([
