@@ -1,16 +1,14 @@
 /* eslint-disable functional/no-expression-statements */
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { getChannels } from '../../redux/selectors';
 import { useChatApi } from '../../hooks';
-import { setCurrentChannel } from '../../redux/slices/channelsSlice';
 import { channelValidate } from '../../schemas/validation';
 
 const ModalAdding = ({ closeModal }) => {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
   const { addChannel } = useChatApi();
   const channels = useSelector(getChannels);
@@ -25,7 +23,6 @@ const ModalAdding = ({ closeModal }) => {
     validateOnBlur: false,
     onSubmit: async (values) => {
       await addChannel(values)
-        .then(({ id }) => dispatch(setCurrentChannel(id)))
         .then(() => closeModal());
     },
   });
