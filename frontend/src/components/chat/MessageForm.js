@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 // import { toast } from 'react-toastify';
 import { useAuth, useChatApi } from '../../hooks';
-import messageValidate from '../../schemas/validation';
+import { messageValidate } from '../../schemas/validation';
 
 const MessageForm = ({ channelId }) => {
   const { t } = useTranslation();
