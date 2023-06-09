@@ -4,17 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
-import { closeModal } from '../redux/slices/modalsSlice';
+import { close } from '../redux/slices/modalsSlice';
 import { getChannels } from '../redux/selectors';
 import { useChatApi } from '../hooks';
 import { actions } from '../redux/slices/channelsSlice';
-
-yup.setLocale({
-  mixed: {
-    notOneOf: 'errors.duplicationChannel',
-  },
-});
+import { channelValidate } from '../schemas/validation';
 
 const Modals = () => {
   const dispatch = useDispatch();
@@ -26,18 +20,14 @@ const Modals = () => {
   const { setCurrentChannel } = actions;
 
   const handleClose = () => {
-    dispatch(closeModal());
+    dispatch(close());
   };
-
-  const validationSchema = yup.object({
-    name: yup.string().notOneOf(channelNames),
-  });
 
   const formik = useFormik({
     initialValues: {
       name: '',
     },
-    validationSchema,
+    validationSchema: channelValidate(channelNames),
     validateOnChange: false,
     validateOnBlur: false,
     onSubmit: async (values) => {
@@ -47,7 +37,7 @@ const Modals = () => {
     },
   });
 
-  // console.log(channels);
+  console.log(formik.errors);
   return (
     <Modal show={isOpened} onHide={handleClose} centered>
       <Modal.Header closeButton>
