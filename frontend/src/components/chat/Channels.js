@@ -16,7 +16,7 @@ const Channels = () => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(open('addChannel'));
+    dispatch(open({ type: 'addChannel' }));
   };
 
   return (
