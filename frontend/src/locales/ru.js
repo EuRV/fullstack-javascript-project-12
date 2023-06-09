@@ -23,8 +23,11 @@ export default {
     },
     modals: {
       addChannel: 'Добавить канал',
+      removeChannel: 'Удалить канал',
+      removeLable: 'Уверены?',
       cancel: 'Отменить',
       send: 'Отправить',
+      remove: 'Удалить',
       channelName: 'Имя канала',
     },
     errors: {
