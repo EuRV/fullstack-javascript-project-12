@@ -29,7 +29,9 @@ export default {
     },
     errors: {
       invalidLoginPassword: 'Неверные имя пользователя или пароль',
+      requiredField: 'Обязательное поле',
       duplicationChannel: 'Должно быть уникальным',
+      lengthChannelName: 'От 3 до 20 символов',
     },
   },
 };
