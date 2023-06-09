@@ -10,7 +10,7 @@ import router from './router';
 
 import store from './redux/store';
 import { actions as messageActions } from './redux/slices/messagesSlices';
-import { actions as channelActions } from './redux/slices/channelsSlice';
+import { addChannel } from './redux/slices/channelsSlice';
 import AuthProvider from './context/AuthProvider';
 import { ChatApiContext } from './context';
 
@@ -22,7 +22,7 @@ const App = () => {
     dispatch(messageActions.addMessage(payload));
   });
   socket.on('newChannel', (payload) => {
-    dispatch(channelActions.addChannel(payload));
+    dispatch(addChannel(payload));
   });
 
   const promiseWrapper = (...args) => new Promise((resolve, reject) => {
