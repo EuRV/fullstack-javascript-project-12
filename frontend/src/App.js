@@ -10,7 +10,7 @@ import router from './router';
 
 import store from './redux/store';
 import { actions as messageActions } from './redux/slices/messagesSlices';
-import { addChannel } from './redux/slices/channelsSlice';
+import { addChannel, removeChannel } from './redux/slices/channelsSlice';
 import AuthProvider from './context/AuthProvider';
 import { ChatApiContext } from './context';
 
@@ -23,6 +23,9 @@ const App = () => {
   });
   socket.on('newChannel', (payload) => {
     dispatch(addChannel(payload));
+  });
+  socket.on('removeChannel', ({ id }) => {
+    dispatch(removeChannel(id));
   });
 
   const promiseWrapper = (...args) => new Promise((resolve, reject) => {
