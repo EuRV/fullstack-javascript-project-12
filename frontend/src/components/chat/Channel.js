@@ -4,16 +4,19 @@ import { useDispatch } from 'react-redux';
 import {
   Button, Nav, ButtonGroup, Dropdown,
 } from 'react-bootstrap';
-import { actions } from '../../redux/slices/channelsSlice';
+import { setCurrentChannel } from '../../redux/slices/channelsSlice';
+import { open } from '../../redux/slices/modalsSlice';
 
 const Channel = ({ channel, currentChannelId }) => {
   const dispatch = useDispatch();
 
   const handleChoose = (id) => {
-    dispatch(actions.setCurrentChannel(id));
+    dispatch(setCurrentChannel(id));
   };
 
-  console.log(channel);
+  const openModal = () => {
+    dispatch(open({ type: 'removeChannel', extra: { channelId: channel.id } }));
+  };
 
   return channel.removable ? (
     <Nav.Item as="li" className="w-100">
@@ -35,7 +38,7 @@ const Channel = ({ channel, currentChannelId }) => {
           split
         />
         <Dropdown.Menu>
-          <Dropdown.Item>Удалить</Dropdown.Item>
+          <Dropdown.Item onClick={openModal}>Удалить</Dropdown.Item>
           <Dropdown.Item>Переименовать</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
