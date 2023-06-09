@@ -6,7 +6,7 @@ import { Button, Col, Nav } from 'react-bootstrap';
 import { PlusSquare } from 'react-bootstrap-icons';
 
 import { getChannels, getCurrentChannelId } from '../../redux/selectors';
-import { openModal } from '../../redux/slices/modalsSlice';
+import { open } from '../../redux/slices/modalsSlice';
 import Channel from './Channel';
 
 const Channels = () => {
@@ -16,7 +16,7 @@ const Channels = () => {
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    dispatch(openModal('addChannel'));
+    dispatch(open('addChannel'));
   };
 
   return (
