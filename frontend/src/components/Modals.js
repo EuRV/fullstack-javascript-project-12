@@ -7,6 +7,8 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { closeModal } from '../redux/slices/modalsSlice';
 import { getChannels } from '../redux/selectors';
+import { useChatApi } from '../hooks';
+import { actions } from '../redux/slices/channelsSlice';
 
 yup.setLocale({
   mixed: {
@@ -18,9 +20,12 @@ const Modals = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { isOpened } = useSelector((state) => state.modal);
-  const channelNames = useSelector(getChannels).map(({ name }) => name);
+  const { addChannel } = useChatApi();
+  const channels = useSelector(getChannels);
+  const channelNames = channels.map(({ name }) => name);
+  const { setCurrentChannel } = actions;
 
-  const handleColse = () => {
+  const handleClose = () => {
     dispatch(closeModal());
   };
 
@@ -35,14 +40,16 @@ const Modals = () => {
     validationSchema,
     validateOnChange: false,
     validateOnBlur: false,
-    onSubmit: (values) => {
-      console.log(!formik.errors.name, values.name);
+    onSubmit: async (values) => {
+      await addChannel(values)
+        .then(({ id }) => dispatch(setCurrentChannel(id)))
+        .then(() => handleClose());
     },
   });
 
-  // console.log(formik.errors.name);
+  // console.log(channels);
   return (
-    <Modal show={isOpened} onHide={handleColse} centered>
+    <Modal show={isOpened} onHide={handleClose} centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('modals.addChannel')}</Modal.Title>
       </Modal.Header>
@@ -61,7 +68,7 @@ const Modals = () => {
             <Form.Label visuallyHidden>{t('modals.channelName')}</Form.Label>
             <Form.Control.Feedback type="invalid">{t(formik.errors.name)}</Form.Control.Feedback>
             <div className="d-flex justify-content-end">
-              <Button variant="secondary" className="me-2" onClick={handleColse}>
+              <Button variant="secondary" className="me-2" onClick={handleClose}>
                 {t('modals.cancel')}
               </Button>
               <Button type="submit" variant="primary">
