@@ -23,7 +23,7 @@ const channelValidate = (channels) => yup.object({
 });
 
 const messageValidate = yup.object({
-  body: yup.string().required().min(5).max(50),
+  body: yup.string().required().min(1).max(50),
 });
 
 export { channelValidate, messageValidate };
