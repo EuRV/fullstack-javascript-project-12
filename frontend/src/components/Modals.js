@@ -7,17 +7,17 @@ import getModal from './modals';
 
 const Modals = () => {
   const dispatch = useDispatch();
-  const { isOpened, type } = useSelector((state) => state.modal);
+  const modalInfo = useSelector((state) => state.modal);
 
   const handleClose = () => {
     dispatch(close());
   };
 
-  const ActiveModal = getModal(type);
+  const ActiveModal = getModal(modalInfo.type);
 
   return (
-    <Modal show={isOpened} onHide={handleClose} centered>
-      {ActiveModal && <ActiveModal closeModal={handleClose} />}
+    <Modal show={modalInfo.isOpened} onHide={handleClose} centered>
+      {ActiveModal && <ActiveModal closeModal={handleClose} modalInfo={modalInfo} />}
     </Modal>
   );
 };
