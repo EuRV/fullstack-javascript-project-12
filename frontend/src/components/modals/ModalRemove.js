@@ -1,21 +1,18 @@
 /* eslint-disable functional/no-expression-statements */
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useChatApi } from '../../hooks';
 
-const ModalRemove = ({ closeModal }) => {
+const ModalRemove = ({ closeModal, modalInfo }) => {
   const { t } = useTranslation();
   const [sending, setSending] = useState(false);
   const { removeChannel } = useChatApi();
 
-  const { channelId } = useSelector((state) => state.modal.extra);
-
   const handleRemove = async () => {
     setSending(true);
     try {
-      await removeChannel({ id: channelId });
+      await removeChannel({ id: modalInfo.extra.channelId });
       closeModal();
     } catch (error) {
       setSending(false);
