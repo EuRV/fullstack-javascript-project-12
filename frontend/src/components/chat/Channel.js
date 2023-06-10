@@ -4,18 +4,20 @@ import { useDispatch } from 'react-redux';
 import {
   Button, Nav, ButtonGroup, Dropdown,
 } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { setCurrentChannel } from '../../redux/slices/channelsSlice';
 import { open } from '../../redux/slices/modalsSlice';
 
 const Channel = ({ channel, currentChannelId }) => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const handleChoose = (id) => {
     dispatch(setCurrentChannel(id));
   };
 
-  const openModal = () => {
-    dispatch(open({ type: 'removeChannel', extra: { channelId: channel.id } }));
+  const openModal = ({ type }) => {
+    dispatch(open({ type, extra: { channelId: channel.id } }));
   };
 
   return channel.removable ? (
@@ -38,8 +40,8 @@ const Channel = ({ channel, currentChannelId }) => {
           split
         />
         <Dropdown.Menu>
-          <Dropdown.Item onClick={openModal}>Удалить</Dropdown.Item>
-          <Dropdown.Item>Переименовать</Dropdown.Item>
+          <Dropdown.Item onClick={() => openModal({ type: 'removeChannel' })}>{t('chat.remove')}</Dropdown.Item>
+          <Dropdown.Item onClick={() => openModal({ type: 'renameChannel' })}>{t('chat.rename')}</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     </Nav.Item>
