@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import {
   Button, Card, Form, FloatingLabel, Row, Col, Container,
 } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/index';
 import { logIn } from '../api/controllers';
@@ -96,7 +96,7 @@ const LoginPage = () => {
             <Card.Footer className="p-4">
               <div className="text-center">
                 <span>{t('logIn.footerHeading')}</span>
-                <a href="/signup">{t('logIn.signUpLink')}</a>
+                <Link to="/signup">{t('logIn.signUpLink')}</Link>
               </div>
             </Card.Footer>
           </Card>
