@@ -1,6 +1,6 @@
 import ModalAddig from './ModalAdding';
 import ModalRemove from './ModalRemove';
-import ModalRename from './ModalReaname';
+import ModalRename from './ModalRename';
 
 const modals = {
   addChannel: ModalAddig,
