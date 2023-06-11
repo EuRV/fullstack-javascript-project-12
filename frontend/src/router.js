@@ -6,6 +6,7 @@ import NotFoundPage from './components/NotFoundPage';
 import PrivatePage from './components/PrivatePage';
 import Chat from './components/Chat';
 import LoginPage from './components/LoginPage';
+import SignUp from './components/SignUp';
 
 export default createBrowserRouter([
   {
@@ -23,6 +24,10 @@ export default createBrowserRouter([
       {
         path: '/login',
         element: <LoginPage />,
+      },
+      {
+        path: '/signup',
+        element: <SignUp />,
       },
       {
         path: '*',
