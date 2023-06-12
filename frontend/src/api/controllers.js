@@ -6,6 +6,11 @@ const logIn = async ({ username, password }) => {
   return data;
 };
 
+const signUp = async (form) => {
+  const { data } = await axios.post(routes.signupPath(), form);
+  return data;
+};
+
 const fetchData = async (token) => {
   const { data } = await axios.get(routes.dataPath(), {
     headers:
@@ -14,5 +19,4 @@ const fetchData = async (token) => {
   return data;
 };
 
-// eslint-disable-next-line import/prefer-default-export
-export { logIn, fetchData };
+export { logIn, signUp, fetchData };
