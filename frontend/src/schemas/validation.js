@@ -4,7 +4,6 @@ import * as yup from 'yup';
 yup.setLocale({
   mixed: {
     notOneOf: 'errors.duplicationChannel',
-    test: 'errors.confirmed',
     required: 'errors.requiredField',
   },
   string: {
@@ -41,7 +40,7 @@ const signUpValidate = yup.object({
     .min(6, 'errors.lengthPassword'),
   confirmPassword: yup
     .string()
-    .test('confirmPassvord', (value, context) => value === context.parent.password),
+    .test('confirmPassword', 'errors.confirmed', (value, context) => value === context.parent.password),
 });
 
 export { channelValidate, messageValidate, signUpValidate };
