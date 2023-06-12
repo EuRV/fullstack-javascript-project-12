@@ -1,3 +1,4 @@
+/* eslint-disable functional/no-expression-statements */
 import React from 'react';
 import {
   Container, Row, Col, Card, Form, Button, FloatingLabel,
@@ -5,6 +6,7 @@ import {
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { signUpValidate } from '../schemas/validation';
+import { signUp } from '../api/controllers';
 
 const SignUp = () => {
   const { t } = useTranslation();
@@ -16,10 +18,21 @@ const SignUp = () => {
       confirmPassword: '',
     },
     validationSchema: signUpValidate,
-    onSubmit: () => {},
+    onSubmit: async (values, actions) => {
+      try {
+        const registeredUser = await signUp(values);
+        // eslint-disable-next-line functional/no-expression-statements
+        console.log(registeredUser);
+      } catch (error) {
+        // eslint-disable-next-line functional/no-conditional-statements
+        if (error.response.status === 409) {
+          actions.setErrors({ registered: 'errors.exists' });
+        }
+        throw error;
+      }
+    },
   });
-  // eslint-disable-next-line functional/no-expression-statements
-  console.log(formik.errors);
+
   return (
     <Container className="h-100" fluid>
       <Row className="justify-content-center align-content-center h-100">
@@ -27,7 +40,7 @@ const SignUp = () => {
           <Card className="shadow-sm">
             <Card.Body className="d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
               <div />
-              <Form className="w-50">
+              <Form className="w-50" onSubmit={formik.handleSubmit}>
                 <h1 className="text-center mb-4">Регистрация</h1>
                 <FloatingLabel className="mb-3" controlId="username" label={t('signUp.username')}>
                   <Form.Control
@@ -37,7 +50,8 @@ const SignUp = () => {
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     value={formik.values.username}
-                    isInvalid={formik.errors.username && formik.touched.username}
+                    isInvalid={(formik.errors.username && formik.touched.username)
+                      || formik.errors.registered}
                   />
                   <Form.Control.Feedback placement="right" type="invalid" tooltip>{t(formik.errors.username)}</Form.Control.Feedback>
                 </FloatingLabel>
@@ -49,7 +63,8 @@ const SignUp = () => {
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     value={formik.values.password}
-                    isInvalid={formik.errors.password && formik.touched.password}
+                    isInvalid={(formik.errors.password && formik.touched.password)
+                      || formik.errors.registered}
                   />
                   <Form.Control.Feedback placement="right" type="invalid" tooltip>{t(formik.errors.password)}</Form.Control.Feedback>
                 </FloatingLabel>
@@ -61,9 +76,12 @@ const SignUp = () => {
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     value={formik.values.confirmPassword}
-                    isInvalid={formik.errors.confirmPassword && formik.touched.confirmPassword}
+                    isInvalid={(formik.errors.confirmPassword && formik.touched.confirmPassword)
+                      || formik.errors.registered}
                   />
-                  <Form.Control.Feedback placement="right" type="invalid" tooltip>{t(formik.errors.confirmPassword)}</Form.Control.Feedback>
+                  <Form.Control.Feedback placement="right" type="invalid" tooltip>
+                    {t(formik.errors.confirmPassword) || t(formik.errors.registered)}
+                  </Form.Control.Feedback>
                 </FloatingLabel>
                 <Button type="submit" className="w-100" variant="outline-primary" disabled={formik.isSubmitting}>{t('signUp.register')}</Button>
               </Form>
