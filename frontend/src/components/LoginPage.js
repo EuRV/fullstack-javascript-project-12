@@ -1,17 +1,17 @@
 /* eslint-disable functional/no-expression-statements */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useFormik } from 'formik';
 import {
   Button, Card, Form, FloatingLabel, Row, Col, Container,
 } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/index';
 import { logIn } from '../api/controllers';
 
 const LoginPage = () => {
   const auth = useAuth();
-  const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -25,20 +25,23 @@ const LoginPage = () => {
       username: '',
       password: '',
     },
-    onSubmit: async (values) => {
-      setAuthFailed(false);
+    onSubmit: async (values, actions) => {
       try {
         const authorizedUser = await logIn(values);
         localStorage.setItem('userId', JSON.stringify(authorizedUser));
         auth.signIn(authorizedUser);
         navigate('/');
       } catch (error) {
-        formik.setSubmitting(false);
-        if (error.isAxiosError && error.response.status === 401) {
-          setAuthFailed(true);
+        if (!error.isAxiosError) {
+          toast.error(t('errors.unknown'));
+          return;
+        }
+        if (error.response.status === 401) {
+          actions.setErrors({ auth: 'errors.invalidAuthorization' });
           inputRef.current.select();
           return;
         }
+        toast.error(t('errors.network'));
         throw error;
       }
     },
@@ -66,7 +69,7 @@ const LoginPage = () => {
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
                       value={formik.values.username}
-                      isInvalid={authFailed}
+                      isInvalid={!!formik.errors.auth}
                       ref={inputRef}
                     />
                   </FloatingLabel>
@@ -83,9 +86,9 @@ const LoginPage = () => {
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
                       value={formik.values.password}
-                      isInvalid={authFailed}
+                      isInvalid={!!formik.errors.auth}
                     />
-                    <Form.Control.Feedback type="invalid" tooltip>{t('errors.invalidLoginPassword')}</Form.Control.Feedback>
+                    <Form.Control.Feedback type="invalid" tooltip>{t(formik.errors.auth)}</Form.Control.Feedback>
                   </FloatingLabel>
                   <Button variant="outline-primary" type="submit" className="w-100 mb-3">
                     {t('logIn.loginButton')}
