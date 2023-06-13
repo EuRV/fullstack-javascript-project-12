@@ -10,7 +10,7 @@ import SignUp from './components/SignUp';
 
 export default createBrowserRouter([
   {
-    path: '/',
+    path: '',
     element: <Panel />,
     children: [
       {
