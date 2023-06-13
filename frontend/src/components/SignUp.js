@@ -3,13 +3,17 @@ import React from 'react';
 import {
   Container, Row, Col, Card, Form, Button, FloatingLabel,
 } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { signUpValidate } from '../schemas/validation';
 import { signUp } from '../api/controllers';
+import { useAuth } from '../hooks';
 
 const SignUp = () => {
   const { t } = useTranslation();
+  const auth = useAuth();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -21,8 +25,9 @@ const SignUp = () => {
     onSubmit: async (values, actions) => {
       try {
         const registeredUser = await signUp(values);
-        // eslint-disable-next-line functional/no-expression-statements
-        console.log(registeredUser);
+        localStorage.setItem('userId', JSON.stringify(registeredUser));
+        auth.signIn(registeredUser);
+        navigate('/');
       } catch (error) {
         // eslint-disable-next-line functional/no-conditional-statements
         if (error.response.status === 409) {
