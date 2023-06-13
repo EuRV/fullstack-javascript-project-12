@@ -1,3 +1,4 @@
+import React from 'react';
 import { Button, Navbar, Container } from 'react-bootstrap';
 import { Link, Outlet } from 'react-router-dom';
 import { useAuth } from '../hooks/index';
