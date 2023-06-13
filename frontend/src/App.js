@@ -4,7 +4,7 @@
 import React from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { ToastContainer } from 'react-bootstrap';
+import { ToastContainer } from 'react-toastify';
 import { io } from 'socket.io-client';
 import router from './router';
 
