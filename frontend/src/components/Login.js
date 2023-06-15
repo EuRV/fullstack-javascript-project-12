@@ -11,10 +11,10 @@ import { useAuth } from '../hooks/index';
 import { logIn } from '../api/controllers';
 
 const Login = () => {
-  const auth = useAuth();
-  const inputRef = useRef();
-  const navigate = useNavigate();
   const { t } = useTranslation();
+  const auth = useAuth();
+  const navigate = useNavigate();
+  const inputRef = useRef(null);
 
   useEffect(() => {
     inputRef.current.focus();
@@ -53,46 +53,46 @@ const Login = () => {
           <Card className="mb-3">
             <Card.Body className="row p-5">
               <Col md={6} className="col-12 d-flex align-items-center justify-content-center" />
-              <Form noValidate className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
+              <Form className="col-12 col-md-6 mt-3 mt-mb-0" onSubmit={formik.handleSubmit}>
                 <h1 className="text-center mb-4">{t('logIn.title')}</h1>
-                <fieldset disabled={formik.isSubmitting}>
-                  <FloatingLabel
-                    className="mb-3"
-                    controlId="username"
-                    label={t('logIn.username')}
-                  >
-                    <Form.Control
-                      name="username"
-                      required
-                      placeholder={t('logIn.username')}
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      value={formik.values.username}
-                      isInvalid={!!formik.errors.auth}
-                      ref={inputRef}
-                    />
-                  </FloatingLabel>
-                  <FloatingLabel
-                    className="mb-4"
-                    controlId="password"
-                    label={t('logIn.password')}
-                  >
-                    <Form.Control
-                      type="password"
-                      name="password"
-                      required
-                      placeholder={t('logIn.password')}
-                      onBlur={formik.handleBlur}
-                      onChange={formik.handleChange}
-                      value={formik.values.password}
-                      isInvalid={!!formik.errors.auth}
-                    />
-                    <Form.Control.Feedback type="invalid" tooltip>{t(formik.errors.auth)}</Form.Control.Feedback>
-                  </FloatingLabel>
-                  <Button variant="outline-primary" type="submit" className="w-100 mb-3">
-                    {t('logIn.loginButton')}
-                  </Button>
-                </fieldset>
+                <FloatingLabel
+                  className="mb-3"
+                  controlId="username"
+                  label={t('logIn.username')}
+                >
+                  <Form.Control
+                    name="username"
+                    required
+                    autoComplete="username"
+                    ref={inputRef}
+                    placeholder={t('logIn.username')}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.username}
+                    isInvalid={formik.errors.auth && formik.touched.username}
+                  />
+                </FloatingLabel>
+                <FloatingLabel
+                  className="mb-4"
+                  controlId="password"
+                  label={t('logIn.password')}
+                >
+                  <Form.Control
+                    type="password"
+                    name="password"
+                    required
+                    autoComplete="current-password"
+                    placeholder={t('logIn.password')}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                    isInvalid={formik.errors.auth && formik.touched.password}
+                  />
+                  <Form.Control.Feedback type="invalid" tooltip>{t(formik.errors.auth)}</Form.Control.Feedback>
+                </FloatingLabel>
+                <Button variant="outline-primary" type="submit" className="w-100 mb-3">
+                  {t('logIn.loginButton')}
+                </Button>
               </Form>
             </Card.Body>
             <Card.Footer className="p-4">
