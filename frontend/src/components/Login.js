@@ -27,9 +27,8 @@ const Login = () => {
     },
     onSubmit: async (values, actions) => {
       try {
-        const authorizedUser = await logIn(values);
-        localStorage.setItem('userId', JSON.stringify(authorizedUser));
-        auth.signIn(authorizedUser);
+        const { data } = await logIn(values);
+        auth.signIn(data);
         navigate('/');
       } catch (error) {
         if (!error.isAxiosError) {

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Container, Row, Spinner } from 'react-bootstrap';
 // import { fetchAuthData } from '../../redux/slices/loaderSlices';
 import { useAuth } from '../hooks';
-import { fetchData } from '../api/controllers';
+import { authFetch } from '../api/controllers';
 import { addChannels, setCurrentChannel } from '../redux/slices/channelsSlice';
 import { actions as messageActions } from '../redux/slices/messagesSlices';
 
@@ -19,9 +19,9 @@ const Chat = () => {
   const { user, signOut } = useAuth();
 
   useEffect(() => {
-    const getData = async () => {
+    const fetchData = async () => {
       try {
-        const data = await fetchData(user.token);
+        const { data } = await authFetch(user.token);
         dispatch(addChannels(data.channels));
         dispatch(setCurrentChannel(data.currentChannelId));
         dispatch(messageActions.addMessages(data.messages));
@@ -32,7 +32,7 @@ const Chat = () => {
         signOut();
       }
     };
-    getData();
+    fetchData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
