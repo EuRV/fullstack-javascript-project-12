@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/index';
 import { logIn } from '../api/controllers';
 
-const LoginPage = () => {
+const Login = () => {
   const auth = useAuth();
   const inputRef = useRef();
   const navigate = useNavigate();
@@ -108,4 +108,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Login;

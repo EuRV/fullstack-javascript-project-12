@@ -2,10 +2,10 @@ import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
 import Panel from './components/Panel';
-import NotFoundPage from './components/NotFoundPage';
+import NotFound from './components/NotFound';
 import PrivatePage from './components/PrivatePage';
 import Chat from './components/Chat';
-import LoginPage from './components/LoginPage';
+import Login from './components/Login';
 import SignUp from './components/SignUp';
 
 export default createBrowserRouter([
@@ -23,7 +23,7 @@ export default createBrowserRouter([
       },
       {
         path: '/login',
-        element: <LoginPage />,
+        element: <Login />,
       },
       {
         path: '/signup',
@@ -31,7 +31,7 @@ export default createBrowserRouter([
       },
       {
         path: '*',
-        element: <NotFoundPage />,
+        element: <NotFound />,
       },
     ],
   },

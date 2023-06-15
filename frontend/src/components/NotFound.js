@@ -1,4 +1,4 @@
-const NotFoundPage = () => (
+const NotFound = () => (
   <div className="text-center">
     <h1 className="h4 text-muted">Страница не найдена</h1>
     <p className="text-muted">
@@ -8,4 +8,4 @@ const NotFoundPage = () => (
   </div>
 );
 
-export default NotFoundPage;
+export default NotFound;
