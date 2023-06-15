@@ -32,7 +32,6 @@ const SignUp = () => {
       const { username, password } = values;
       try {
         const registeredUser = await signUp({ username, password });
-        localStorage.setItem('userId', JSON.stringify(registeredUser));
         auth.signIn(registeredUser);
         navigate('/');
       } catch (error) {
