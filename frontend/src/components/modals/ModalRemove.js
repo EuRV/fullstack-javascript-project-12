@@ -18,7 +18,7 @@ const ModalRemove = ({ closeModal, modalInfo }) => {
       closeModal();
     } catch (error) {
       setSending(false);
-      throw error;
+      toast.error(t(error.message));
     }
   };
 

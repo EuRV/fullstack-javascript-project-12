@@ -43,7 +43,7 @@ const ModalRename = ({ closeModal, modalInfo }) => {
           actions.setErrors(error.message);
           return;
         }
-        throw error;
+        toast.error(t(error.message));
       }
     },
     validateOnChange: false,
@@ -61,10 +61,11 @@ const ModalRename = ({ closeModal, modalInfo }) => {
             <Form.Control
               name="name"
               className="mb-2"
+              ref={inputRef}
               value={formik.values.name}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              isInvalid={!!formik.errors.name}
+              isInvalid={formik.errors.name && formik.touched.name}
             />
             <Form.Label visuallyHidden>{t('modals.channelName')}</Form.Label>
             <Form.Control.Feedback type="invalid">{t(formik.errors.name)}</Form.Control.Feedback>

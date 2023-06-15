@@ -42,7 +42,7 @@ const ModalAdding = ({ closeModal }) => {
           actions.setErrors({ name: error.message });
           return;
         }
-        throw error;
+        toast.error(t(error.message));
       }
     },
     validateOnChange: false,

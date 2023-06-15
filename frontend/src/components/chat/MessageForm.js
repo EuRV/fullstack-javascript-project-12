@@ -33,10 +33,11 @@ const MessageForm = ({ channelId }) => {
       } catch (error) {
         console.log(error);
         actions.setSubmitting(false);
-        toast.error(t('errors.network'));
+        toast.error(t(error.message));
         throw error;
       }
     },
+    validateOnBlur: false,
   });
 
   const isInvalid = !formik.dirty || !formik.isValid;
