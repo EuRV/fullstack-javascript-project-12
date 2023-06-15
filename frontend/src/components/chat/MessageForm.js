@@ -1,5 +1,5 @@
 /* eslint-disable functional/no-expression-statements */
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
@@ -13,6 +13,11 @@ const MessageForm = ({ channelId }) => {
   const { t } = useTranslation();
   const api = useChatApi();
   const { user } = useAuth();
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, [channelId]);
 
   const formik = useFormik({
     initialValues: {
@@ -36,6 +41,7 @@ const MessageForm = ({ channelId }) => {
         toast.error(t(error.message));
         throw error;
       }
+      inputRef.current.focus();
     },
     validateOnBlur: false,
   });
@@ -48,18 +54,20 @@ const MessageForm = ({ channelId }) => {
         <InputGroup hasValidation={isInvalid}>
           <Form.Control
             name="body"
+            ref={inputRef}
             aria-label={t('chat.newMessage')}
             placeholder={t('chat.enterMessage')}
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.body}
+            disabled={formik.isSubmitting}
             className="border-0 p-0 ps-2"
           />
           <Button
             type="submit"
             variant="group-vertical"
             className="border-0"
-            disabled={formik.isSubmitting}
+            disabled={isInvalid}
           >
             <ArrowRightSquare size={20} />
             <span className="visually-hidden">{t('chat.send')}</span>
