@@ -1,6 +1,7 @@
 /* eslint-disable functional/no-expression-statements */
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useChatApi } from '../../hooks';
 
@@ -13,10 +14,11 @@ const ModalRemove = ({ closeModal, modalInfo }) => {
     setSending(true);
     try {
       await removeChannel({ id: modalInfo.extra.channelId });
+      toast.success(t('modals.channelRemoved'));
       closeModal();
     } catch (error) {
       setSending(false);
-      console.error(error);
+      throw error;
     }
   };
 

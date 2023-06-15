@@ -1,7 +1,8 @@
 /* eslint-disable functional/no-expression-statements */
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Button, Modal, Form } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import { getChannels } from '../../redux/selectors';
@@ -11,9 +12,14 @@ import { channelValidate } from '../../schemas/validation';
 const ModalRename = ({ closeModal, modalInfo }) => {
   const { t } = useTranslation();
   const { renameChannel } = useChatApi();
+  const inputRef = useRef(null);
   const channels = useSelector(getChannels);
   const channel = channels.find(({ id }) => modalInfo.extra.channelId === id);
   const channelNames = channels.map(({ name }) => name);
+
+  useEffect(() => {
+    setTimeout(() => inputRef.current.select());
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -22,10 +28,17 @@ const ModalRename = ({ closeModal, modalInfo }) => {
     validationSchema: channelValidate(channelNames),
     validateOnChange: false,
     validateOnBlur: false,
-    onSubmit: async (values) => {
+    onSubmit: async (values, actions) => {
       const renamedChannel = { id: channel.id, ...values };
-      await renameChannel(renamedChannel);
-      closeModal();
+      try {
+        await renameChannel(renamedChannel);
+        toast.success(t('modals.channelRenamed'));
+        closeModal();
+      } catch (error) {
+        actions.setSubmitting(false);
+        inputRef.current.select();
+        throw error;
+      }
     },
   });
 
@@ -51,7 +64,7 @@ const ModalRename = ({ closeModal, modalInfo }) => {
               <Button variant="secondary" className="me-2" onClick={closeModal}>
                 {t('modals.cancel')}
               </Button>
-              <Button type="submit" variant="primary">
+              <Button type="submit" variant="primary" disabled={formik.isSubmitting}>
                 {t('modals.send')}
               </Button>
             </div>

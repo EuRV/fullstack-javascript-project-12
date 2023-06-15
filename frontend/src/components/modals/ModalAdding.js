@@ -1,9 +1,10 @@
 /* eslint-disable functional/no-expression-statements */
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import { getChannels } from '../../redux/selectors';
 import { useChatApi } from '../../hooks';
 import { channelValidate } from '../../schemas/validation';
@@ -11,20 +12,32 @@ import { channelValidate } from '../../schemas/validation';
 const ModalAdding = ({ closeModal }) => {
   const { t } = useTranslation();
   const { addChannel } = useChatApi();
+  const inputRef = useRef(null);
   const channels = useSelector(getChannels);
   const channelNames = channels.map(({ name }) => name);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
       name: '',
     },
     validationSchema: channelValidate(channelNames),
+    onSubmit: async (values, actions) => {
+      try {
+        await addChannel(values);
+        toast.success(t('modals.channelCreated'));
+        closeModal();
+      } catch (error) {
+        actions.setSubmitting(false);
+        inputRef.current.select();
+        throw error;
+      }
+    },
     validateOnChange: false,
     validateOnBlur: false,
-    onSubmit: async (values) => {
-      await addChannel(values)
-        .then(() => closeModal());
-    },
   });
 
   return (
@@ -38,11 +51,12 @@ const ModalAdding = ({ closeModal }) => {
             <Form.Control
               name="name"
               className="mb-2"
-              required
+              disabled={formik.isSubmitting}
+              ref={inputRef}
               value={formik.values.name}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
-              isInvalid={!!formik.errors.name}
+              isInvalid={formik.errors.name && formik.touched.name}
             />
             <Form.Label visuallyHidden>{t('modals.channelName')}</Form.Label>
             <Form.Control.Feedback type="invalid">{t(formik.errors.name)}</Form.Control.Feedback>
@@ -50,7 +64,7 @@ const ModalAdding = ({ closeModal }) => {
               <Button variant="secondary" className="me-2" onClick={closeModal}>
                 {t('modals.cancel')}
               </Button>
-              <Button type="submit" variant="primary">
+              <Button type="submit" variant="primary" disabled={formik.isSubmitting}>
                 {t('modals.send')}
               </Button>
             </div>
