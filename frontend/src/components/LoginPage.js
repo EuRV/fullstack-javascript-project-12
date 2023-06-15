@@ -36,13 +36,12 @@ const LoginPage = () => {
           toast.error(t('errors.unknown'));
           return;
         }
-        if (error.response.status === 401) {
+        if (error.response?.status === 401) {
           actions.setErrors({ auth: 'errors.invalidAuthorization' });
           inputRef.current.select();
           return;
         }
         toast.error(t('errors.network'));
-        throw error;
       }
     },
   });
