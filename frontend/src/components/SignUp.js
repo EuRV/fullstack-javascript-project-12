@@ -5,6 +5,7 @@ import {
 } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { signUpValidate } from '../schemas/validation';
 import { signUp } from '../api/controllers';
@@ -36,14 +37,15 @@ const SignUp = () => {
         navigate('/');
       } catch (error) {
         if (!error.isAxiosError) {
-          throw error;
-        }
-        if (error.response.status === 409) {
-          actions.setErrors({ registered: 'errors.exists' });
-          inputRef.current.select();
+          toast.error(t('errors.unknown'));
           return;
         }
-        throw error;
+        if (error.response?.status === 409) {
+          inputRef.current.select();
+          actions.setErrors({ registered: 'errors.exists' });
+          return;
+        }
+        toast.error(t('errors.network'));
       }
     },
   });
@@ -61,6 +63,7 @@ const SignUp = () => {
                   <Form.Control
                     name="username"
                     required
+                    ref={inputRef}
                     placeholder={t('errors.lengthChannelName')}
                     onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
