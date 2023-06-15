@@ -1,19 +1,21 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable functional/no-expression-statements */
 import React, { useState, useMemo } from 'react';
 import { AuthContext } from './index';
+import { getToken, setToken, removeToken } from '../api/token';
 
 const AuthProvider = ({ children }) => {
-  const currentUser = JSON.parse(localStorage.getItem('userId'));
+  const currentUser = getToken();
   const [loggedIn, setLoggedIn] = useState(Boolean(currentUser));
   const [user, setUser] = useState(currentUser || null);
 
   const signIn = (data) => {
+    setToken(data);
     setUser(data);
     setLoggedIn(true);
   };
+
   const signOut = () => {
-    localStorage.removeItem('userId');
+    removeToken();
     setLoggedIn(false);
   };
 
@@ -21,7 +23,7 @@ const AuthProvider = ({ children }) => {
     {
       loggedIn, user, signIn, signOut,
     }
-  ), [loggedIn, user, signIn]);
+  ), [loggedIn, user]);
 
   return (
     <AuthContext.Provider value={cachedValue}>
