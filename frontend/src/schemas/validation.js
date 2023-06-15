@@ -25,6 +25,7 @@ const channelValidate = (channels) => yup.object({
 const messageValidate = yup.object({
   body: yup
     .string()
+    .trim()
     .required(),
 });
 
