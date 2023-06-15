@@ -1,5 +1,5 @@
 /* eslint-disable functional/no-expression-statements */
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   Container, Row, Col, Card, Form, Button, FloatingLabel,
 } from 'react-bootstrap';
@@ -14,6 +14,11 @@ const SignUp = () => {
   const { t } = useTranslation();
   const auth = useAuth();
   const navigate = useNavigate();
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -23,15 +28,20 @@ const SignUp = () => {
     },
     validationSchema: signUpValidate,
     onSubmit: async (values, actions) => {
+      const { username, password } = values;
       try {
-        const registeredUser = await signUp(values);
+        const registeredUser = await signUp({ username, password });
         localStorage.setItem('userId', JSON.stringify(registeredUser));
         auth.signIn(registeredUser);
         navigate('/');
       } catch (error) {
-        // eslint-disable-next-line functional/no-conditional-statements
+        if (!error.isAxiosError) {
+          throw error;
+        }
         if (error.response.status === 409) {
           actions.setErrors({ registered: 'errors.exists' });
+          inputRef.current.select();
+          return;
         }
         throw error;
       }
