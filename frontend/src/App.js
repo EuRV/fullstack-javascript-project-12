@@ -41,20 +41,22 @@ const App = () => {
     dispatch(renameChannel(payload));
   });
 
-  const promiseWrapper = (...args) => new Promise((resolve, reject) => {
-    socket.emit(...args, (response) => {
+  const promiseWrapper = (socketFn) => (...args) => new Promise((resolve, reject) => {
+    const timer = setTimeout(() => reject(new Error('errors.network')), 5000);
+    socketFn(...args, (response) => {
       if (response.status === 'ok') {
-        resolve(response.data);
+        clearTimeout(timer);
+        resolve();
       }
-      reject(response.error);
+      reject();
     });
   });
 
   const api = {
-    sendMessage: (message) => promiseWrapper('newMessage', message),
-    addChannel: (channel) => promiseWrapper('newChannel', channel),
-    removeChannel: (channel) => promiseWrapper('removeChannel', channel),
-    renameChannel: (channel) => promiseWrapper('renameChannel', channel),
+    sendMessage: promiseWrapper((...args) => socket.volatile.emit('newMessage', ...args)),
+    addChannel: promiseWrapper((...args) => socket.volatile.emit('newChannel', ...args)),
+    removeChannel: promiseWrapper((...args) => socket.volatile.emit('removeChannel', ...args)),
+    renameChannel: promiseWrapper((...args) => socket.volatile.emit('renameChannel', ...args)),
   };
 
   return (
