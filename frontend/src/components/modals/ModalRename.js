@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import leoProfanity from 'leo-profanity';
 import { useFormik } from 'formik';
 import { getChannels } from '../../redux/selectors';
 import { useChatApi } from '../../hooks';
@@ -26,20 +27,27 @@ const ModalRename = ({ closeModal, modalInfo }) => {
       name: `${channel.name}`,
     },
     validationSchema: channelValidate(channelNames),
-    validateOnChange: false,
-    validateOnBlur: false,
-    onSubmit: async (values, actions) => {
-      const renamedChannel = { id: channel.id, ...values };
+    onSubmit: async ({ name }, actions) => {
+      const filteredName = leoProfanity.clean(name);
+      const renamedChannel = { id: channel.id, name: filteredName };
       try {
+        channelValidate(channelNames).validateSync({ name: filteredName });
         await renameChannel(renamedChannel);
         toast.success(t('modals.channelRenamed'));
         closeModal();
       } catch (error) {
         actions.setSubmitting(false);
         inputRef.current.select();
+        if (error.name === 'ValidationError') {
+          formik.values.name = filteredName;
+          actions.setErrors(error.message);
+          return;
+        }
         throw error;
       }
     },
+    validateOnChange: false,
+    validateOnBlur: false,
   });
 
   return (

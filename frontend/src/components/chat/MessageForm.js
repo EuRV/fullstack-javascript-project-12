@@ -4,6 +4,7 @@ import { Button, Form, InputGroup } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import leoProfanity from 'leo-profanity';
 import { toast } from 'react-toastify';
 import { useAuth, useChatApi } from '../../hooks';
 import { messageValidate } from '../../schemas/validation';
@@ -19,8 +20,9 @@ const MessageForm = ({ channelId }) => {
     },
     validationSchema: messageValidate,
     onSubmit: async (values, actions) => {
+      const filtered = leoProfanity.clean(values.body);
       const message = {
-        body: values.body,
+        body: filtered,
         channelId,
         username: user.username,
       };

@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import leoProfanity from 'leo-profanity';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { getChannels } from '../../redux/selectors';
@@ -25,14 +26,22 @@ const ModalAdding = ({ closeModal }) => {
       name: '',
     },
     validationSchema: channelValidate(channelNames),
-    onSubmit: async (values, actions) => {
+    onSubmit: async ({ name }, actions) => {
+      const filteredName = leoProfanity.clean(name);
+      const channelName = { name: filteredName };
       try {
-        await addChannel(values);
+        channelValidate(channelNames).validateSync({ name: filteredName });
+        await addChannel(channelName);
         toast.success(t('modals.channelCreated'));
         closeModal();
       } catch (error) {
         actions.setSubmitting(false);
         inputRef.current.select();
+        if (error.name === 'ValidationError') {
+          formik.values.name = filteredName;
+          actions.setErrors({ name: error.message });
+          return;
+        }
         throw error;
       }
     },

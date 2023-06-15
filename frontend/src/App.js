@@ -6,8 +6,9 @@ import { RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { io } from 'socket.io-client';
-import router from './router';
+import leoProfanity from 'leo-profanity';
 
+import router from './router';
 import store from './redux/store';
 import { actions as messageActions } from './redux/slices/messagesSlices';
 import {
@@ -15,10 +16,15 @@ import {
 } from './redux/slices/channelsSlice';
 import AuthProvider from './context/AuthProvider';
 import { ChatApiContext } from './context';
+import badWords from './locales/badWords.js';
 
 const App = () => {
   const { dispatch } = store;
   const socket = io();
+
+  const ruDict = leoProfanity.getDictionary('ru');
+  leoProfanity.add(ruDict);
+  leoProfanity.add(badWords);
 
   socket.on('newMessage', (payload) => {
     dispatch(messageActions.addMessage(payload));
