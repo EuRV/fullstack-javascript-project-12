@@ -31,8 +31,8 @@ const SignUp = () => {
     onSubmit: async (values, actions) => {
       const { username, password } = values;
       try {
-        const registeredUser = await signUp({ username, password });
-        auth.signIn(registeredUser);
+        const { data } = await signUp({ username, password });
+        auth.signIn(data);
         navigate('/');
       } catch (error) {
         if (!error.isAxiosError) {
