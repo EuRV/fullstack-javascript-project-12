@@ -1,20 +1,17 @@
-/* eslint-disable functional/no-conditional-statements */
 /* eslint-disable functional/no-expression-statements */
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Container, Row, Spinner } from 'react-bootstrap';
-// import { fetchAuthData } from '../../redux/slices/loaderSlices';
 import { useAuth } from '../hooks';
 import { authFetch } from '../api/controllers';
-import { addChannels, setCurrentChannel } from '../redux/slices/channelsSlice';
-import { actions as messageActions } from '../redux/slices/messagesSlices';
+import { setInitialState } from '../redux/slices/channelsSlice';
 
 import Channels from './chat/Channels';
 import Messages from './chat/Messages';
 import Modals from './Modals';
 
 const Chat = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const { user, signOut } = useAuth();
 
@@ -22,21 +19,23 @@ const Chat = () => {
     const fetchData = async () => {
       try {
         const { data } = await authFetch(user.token);
-        dispatch(addChannels(data.channels));
-        dispatch(setCurrentChannel(data.currentChannelId));
-        dispatch(messageActions.addMessages(data.messages));
-        // eslint-disable-next-line no-unused-expressions
-        data ? setIsLoading(true) : setIsLoading(false);
+        dispatch(setInitialState(data));
+        setIsLoading(false);
       } catch (error) {
         console.error(error);
         signOut();
       }
     };
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dispatch, signOut, user.token]);
 
   return isLoading ? (
+    <Container className="h-100 max-height-90 overflow-hidden rounded shadow d-flex justify-content-center align-items-center">
+      <Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+    </Container>
+  ) : (
     <>
       <Container className="h-100 my-4 overflow-hidden rounded shadow">
         <Row className="h-100 bg-white flex-md-row">
@@ -46,12 +45,6 @@ const Chat = () => {
       </Container>
       <Modals />
     </>
-  ) : (
-    <Container className="h-100 max-height-90 overflow-hidden rounded shadow d-flex justify-content-center align-items-center">
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
-    </Container>
   );
 };
 
