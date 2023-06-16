@@ -1,22 +1,23 @@
 import axios from 'axios';
 import routes from './requestRoutes';
+import { getToken } from './token';
 
-const logIn = async ({ username, password }) => {
-  const { data } = await axios.post(routes.loginPath(), { username, password });
-  return data;
-};
+const logIn = async ({ username, password }) => (
+  axios.post(routes.loginPath(), { username, password })
+);
 
-const signUp = async (form) => {
-  const { data } = await axios.post(routes.signupPath(), form);
-  return data;
-};
+const signUp = async (form) => (
+  axios.post(routes.signupPath(), form)
+);
 
-const fetchData = async (token) => {
-  const { data } = await axios.get(routes.dataPath(), {
+const authFetch = async (token) => {
+  const accessToken = token ?? getToken()?.token;
+  const options = {
     headers:
-    { Authorization: `Bearer ${token}` },
-  });
-  return data;
+      { Authorization: `Bearer ${accessToken}` },
+  };
+
+  return axios.get(routes.dataPath(), options);
 };
 
-export { logIn, signUp, fetchData };
+export { logIn, signUp, authFetch };
