@@ -10,7 +10,7 @@ import leoProfanity from 'leo-profanity';
 
 import router from './router';
 import store from './redux/store';
-import { actions as messageActions } from './redux/slices/messagesSlices';
+import { addMessage } from './redux/slices/messagesSlices';
 import {
   addChannel, removeChannel, setCurrentChannel, renameChannel,
 } from './redux/slices/channelsSlice';
@@ -27,7 +27,7 @@ const App = () => {
   leoProfanity.add(badWords);
 
   socket.on('newMessage', (payload) => {
-    dispatch(messageActions.addMessage(payload));
+    dispatch(addMessage(payload));
   });
   socket.on('newChannel', (payload) => {
     dispatch(addChannel(payload));
