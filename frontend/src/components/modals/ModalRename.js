@@ -1,14 +1,12 @@
 /* eslint-disable functional/no-expression-statements */
 import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Modal } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
 import { useFormik } from 'formik';
 
-import ModalHeader from './ModalHeader';
-import ModalForm from './ModalForm';
+import { ModalHeader, ModalForm } from './modalComponents';
 import { getChannels } from '../../redux/selectors';
 import { useChatApi } from '../../hooks';
 import { channelValidate } from '../../schemas/validation';
@@ -56,9 +54,7 @@ const ModalRename = ({ closeModal, modalInfo }) => {
   return (
     <>
       <ModalHeader title={t('modals.renameChannel')} />
-      <Modal.Body>
-        <ModalForm formik={formik} t={t} closeModal={closeModal} inputRef={inputRef} />
-      </Modal.Body>
+      <ModalForm formik={formik} t={t} closeModal={closeModal} inputRef={inputRef} />
     </>
   );
 };

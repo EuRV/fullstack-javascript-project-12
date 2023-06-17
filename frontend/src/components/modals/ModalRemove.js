@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useChatApi } from '../../hooks';
 
-import ModalHeader from './ModalHeader';
+import { ModalHeader } from './modalComponents';
 
 const ModalRemove = ({ closeModal, modalInfo }) => {
   const { t } = useTranslation();
