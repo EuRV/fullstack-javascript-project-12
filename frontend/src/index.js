@@ -1,14 +1,17 @@
+/* eslint-disable functional/no-expression-statements */
 import './index.css';
 import './locales/index';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { io } from 'socket.io-client';
 
-import App from './App';
+import init from './init';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-// eslint-disable-next-line functional/no-expression-statements
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-);
+const app = async () => {
+  const root = ReactDOM.createRoot(document.querySelector('#root'));
+  const socket = io();
+  const vdom = await init(socket);
+  root.render(<React.StrictMode>{vdom}</React.StrictMode>);
+};
+
+app();
