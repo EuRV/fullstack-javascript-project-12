@@ -5,6 +5,8 @@ import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useChatApi } from '../../hooks';
 
+import ModalHeader from './ModalHeader';
+
 const ModalRemove = ({ closeModal, modalInfo }) => {
   const { t } = useTranslation();
   const [sending, setSending] = useState(false);
@@ -24,9 +26,7 @@ const ModalRemove = ({ closeModal, modalInfo }) => {
 
   return (
     <>
-      <Modal.Header closeButton>
-        <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
-      </Modal.Header>
+      <ModalHeader title={t('modals.removeChannel')} />
       <Modal.Body>
         <p className="lead">{t('modals.removeLable')}</p>
         <div className="d-flex justify-content-end">
