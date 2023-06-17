@@ -41,7 +41,7 @@ const ModalRename = ({ closeModal, modalInfo }) => {
         inputRef.current.select();
         if (error.name === 'ValidationError') {
           formik.values.name = filteredName;
-          actions.setErrors(error.message);
+          actions.setErrors({ name: error.message });
           return;
         }
         toast.error(t(error.message));
