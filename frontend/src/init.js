@@ -23,7 +23,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 const rollbarConfig = {
   enabled: isProduction,
-  accessToken: process.env.ROLLBAR_TOKEN,
+  accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
   captureUncaught: true,
   captureUnhandledRejections: true,
 };
