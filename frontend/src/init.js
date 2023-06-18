@@ -5,6 +5,8 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
+// import Rollbar from 'rollbar';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import leoProfanity from 'leo-profanity';
 
 import store from './redux/store';
@@ -16,6 +18,15 @@ import {
 import { ChatApiContext } from './context';
 import resources from './locales/resources';
 import badWords from './locales/badWords.js';
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+const rollbarConfig = {
+  enabled: isProduction,
+  accessToken: process.env.ROLLBAR_TOKEN,
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+};
 
 export default async (socket) => {
   const { dispatch } = store;
@@ -70,13 +81,17 @@ export default async (socket) => {
     });
 
   const vdom = (
-    <Provider store={store}>
-      <I18nextProvider i18n={i18n}>
-        <ChatApiContext.Provider value={api}>
-          <App />
-        </ChatApiContext.Provider>
-      </I18nextProvider>
-    </Provider>
+    <RollbarProvider config={rollbarConfig}>
+      <ErrorBoundary>
+        <Provider store={store}>
+          <I18nextProvider i18n={i18n}>
+            <ChatApiContext.Provider value={api}>
+              <App />
+            </ChatApiContext.Provider>
+          </I18nextProvider>
+        </Provider>
+      </ErrorBoundary>
+    </RollbarProvider>
   );
 
   return vdom;
