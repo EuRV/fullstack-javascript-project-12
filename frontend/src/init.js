@@ -19,11 +19,11 @@ import { ChatApiContext } from './context';
 import resources from './locales/resources';
 import badWords from './locales/badWords.js';
 
-const isProduction = process.env.NODE_ENV === 'production';
-
 const rollbarConfig = {
-  enabled: isProduction,
-  accessToken: '05c4c85a1e764b089cc969bb0a935153',
+  accessToken: process.env.REACT_APP_ROLLBAR_ACCESS_TOKEN,
+  payload: {
+    environment: 'production',
+  },
   captureUncaught: true,
   captureUnhandledRejections: true,
 };
