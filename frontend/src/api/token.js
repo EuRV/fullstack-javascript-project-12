@@ -2,7 +2,7 @@ const TOKEN_KEY = 'userId';
 
 const getToken = () => {
   const storedToken = localStorage.getItem(TOKEN_KEY);
-  return !storedToken ? JSON.parse(storedToken) : null;
+  return !storedToken ? null : JSON.parse(storedToken);
 };
 
 const setToken = (token) => localStorage.setItem(TOKEN_KEY, JSON.stringify(token));
