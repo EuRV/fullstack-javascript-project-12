@@ -8,6 +8,11 @@ const getCurrentChannelId = (state) => {
   return currentChannelId;
 };
 
+const getDefaultChannelId = (state) => {
+  const { defaultChannelId } = state.channels;
+  return defaultChannelId;
+};
+
 const getCurrentChannel = (state) => {
   const { currentChannelId } = state.channels;
   return channelsSelectors.selectById(state, currentChannelId);
@@ -22,6 +27,7 @@ const getMessagesCurrentChannel = (state) => {
 export {
   getChannels,
   getCurrentChannelId,
+  getDefaultChannelId,
   getCurrentChannel,
   getMessagesCurrentChannel,
 };
