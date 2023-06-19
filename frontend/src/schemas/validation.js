@@ -1,4 +1,3 @@
-/* eslint-disable functional/no-expression-statements */
 import * as yup from 'yup';
 
 yup.setLocale({

@@ -3,10 +3,13 @@ env:
   es2021: true
 
 extends:
+  - eslint:recommended
   - airbnb
   - plugin:react/recommended
-  - plugin:functional/recommended
   - plugin:react-hooks/recommended
+  - plugin:functional/recommended
+  - plugin:jsx-a11y/recommended
+  - plugin:import/recommended
 
 parserOptions:
   ecmaFeatures:
@@ -24,8 +27,8 @@ rules:
   react/prop-types: 0
   no-console: 0
   react/react-in-jsx-scope: 0
-  functional/no-conditional-statement: 0
-  functional/no-expression-statement: 0
+  functional/no-conditional-statements: 0
+  functional/no-expression-statements: 0
   functional/immutable-data: 0
   functional/functional-parameters: 0
   functional/no-try-statement: 0

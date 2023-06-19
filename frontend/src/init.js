@@ -1,6 +1,4 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
-/* eslint-disable functional/no-conditional-statements */
-/* eslint-disable functional/no-expression-statements */
 import React from 'react';
 import { Provider } from 'react-redux';
 import i18next from 'i18next';

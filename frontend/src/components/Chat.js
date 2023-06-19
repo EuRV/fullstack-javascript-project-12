@@ -1,4 +1,3 @@
-/* eslint-disable functional/no-expression-statements */
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Container, Row, Spinner } from 'react-bootstrap';
