@@ -38,7 +38,9 @@ const Channel = ({ channel, currentChannelId }) => {
           className="flex-grow-0"
           variant={channel.id === currentChannelId ? 'secondary' : null}
           split
-        />
+        >
+          <span className="visually-hidden">{t('chat.control')}</span>
+        </Dropdown.Toggle>
         <Dropdown.Menu>
           <Dropdown.Item onClick={() => openModal({ type: 'removeChannel' })}>{t('chat.remove')}</Dropdown.Item>
           <Dropdown.Item onClick={() => openModal({ type: 'renameChannel' })}>{t('chat.rename')}</Dropdown.Item>
