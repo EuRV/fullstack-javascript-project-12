@@ -1,9 +1,9 @@
 /* eslint-disable functional/no-conditional-statements */
-/* eslint-disable no-undef */
 /* eslint-disable functional/no-expression-statements */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { animateScroll } from 'react-scroll';
 import { Col, Nav } from 'react-bootstrap';
 
 import { getChannels, getCurrentChannelId, getDefaultChannelId } from '../../redux/selectors';
