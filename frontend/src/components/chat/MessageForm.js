@@ -5,6 +5,7 @@ import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
+import { useRollbar } from '@rollbar/react';
 import { toast } from 'react-toastify';
 import { useAuth, useChatApi } from '../../hooks';
 import { messageValidate } from '../../schemas/validation';
@@ -14,6 +15,7 @@ const MessageForm = ({ channelId }) => {
   const api = useChatApi();
   const { user } = useAuth();
   const inputRef = useRef(null);
+  const rollbar = useRollbar();
 
   useEffect(() => {
     inputRef.current.focus();
@@ -36,6 +38,7 @@ const MessageForm = ({ channelId }) => {
         await api.sendMessage(message);
         actions.resetForm();
       } catch (error) {
+        rollbar.error(error);
         console.log(error);
         actions.setSubmitting(false);
         toast.error(t(error.message));

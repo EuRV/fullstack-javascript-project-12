@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
+import { useRollbar } from '@rollbar/react';
 import { useFormik } from 'formik';
 
 import { ModalHeader, ModalForm } from './modalComponents';
@@ -18,6 +19,7 @@ const ModalRename = ({ closeModal, modalInfo }) => {
   const channels = useSelector(getChannels);
   const channel = channels.find(({ id }) => modalInfo.extra.channelId === id);
   const channelNames = channels.map(({ name }) => name);
+  const rollbar = useRollbar();
 
   useEffect(() => {
     setTimeout(() => inputRef.current.select());
@@ -37,6 +39,7 @@ const ModalRename = ({ closeModal, modalInfo }) => {
         toast.success(t('modals.channelRenamed'));
         closeModal();
       } catch (error) {
+        rollbar.error(error);
         actions.setSubmitting(false);
         inputRef.current.select();
         if (error.name === 'ValidationError') {

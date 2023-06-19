@@ -6,6 +6,7 @@ import {
 } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useRollbar } from '@rollbar/react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../hooks/index';
 import { logIn } from '../api/controllers';
@@ -15,6 +16,7 @@ const Login = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const inputRef = useRef(null);
+  const rollbar = useRollbar();
 
   useEffect(() => {
     inputRef.current.focus();
@@ -31,6 +33,7 @@ const Login = () => {
         auth.signIn(data);
         navigate('/');
       } catch (error) {
+        rollbar.error(error);
         if (!error.isAxiosError) {
           toast.error(t('errors.unknown'));
           return;

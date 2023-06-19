@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { useRollbar } from '@rollbar/react';
 import { signUpValidate } from '../schemas/validation';
 import { signUp } from '../api/controllers';
 import { useAuth } from '../hooks';
@@ -16,6 +17,7 @@ const SignUp = () => {
   const auth = useAuth();
   const navigate = useNavigate();
   const inputRef = useRef(null);
+  const rollbar = useRollbar();
 
   useEffect(() => {
     inputRef.current.focus();
@@ -35,6 +37,7 @@ const SignUp = () => {
         auth.signIn(data);
         navigate('/');
       } catch (error) {
+        rollbar.error(error);
         if (!error.isAxiosError) {
           toast.error(t('errors.unknown'));
           return;

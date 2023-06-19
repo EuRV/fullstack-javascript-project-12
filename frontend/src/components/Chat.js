@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Container, Row, Spinner } from 'react-bootstrap';
+import { useRollbar } from '@rollbar/react';
 import { useAuth } from '../hooks';
 import { authFetch } from '../api/controllers';
 import { setInitialState } from '../redux/slices/channelsSlice';
@@ -14,6 +15,7 @@ const Chat = () => {
   const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
   const { user, signOut } = useAuth();
+  const rollbar = useRollbar();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,12 +24,13 @@ const Chat = () => {
         dispatch(setInitialState(data));
         setIsLoading(false);
       } catch (error) {
+        rollbar.error(error);
         console.error(error);
         signOut();
       }
     };
     fetchData();
-  }, [dispatch, signOut, user.token]);
+  }, [dispatch, signOut, user.token, rollbar]);
 
   return isLoading ? (
     <Container className="h-100 max-height-90 overflow-hidden rounded shadow d-flex justify-content-center align-items-center">

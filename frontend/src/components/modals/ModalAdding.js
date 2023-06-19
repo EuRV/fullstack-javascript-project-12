@@ -3,6 +3,7 @@ import React, { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
+import { useRollbar } from '@rollbar/react';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 
@@ -17,6 +18,7 @@ const ModalAdding = ({ closeModal }) => {
   const inputRef = useRef(null);
   const channels = useSelector(getChannels);
   const channelNames = channels.map(({ name }) => name);
+  const rollbar = useRollbar();
 
   useEffect(() => {
     inputRef.current.focus();
@@ -36,6 +38,7 @@ const ModalAdding = ({ closeModal }) => {
         toast.success(t('modals.channelCreated'));
         closeModal();
       } catch (error) {
+        rollbar.error(error);
         actions.setSubmitting(false);
         inputRef.current.select();
         if (error.name === 'ValidationError') {
