@@ -1,6 +1,5 @@
 /* eslint-disable functional/no-expression-statements */
 import './index.css';
-import './locales/index';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { io } from 'socket.io-client';
